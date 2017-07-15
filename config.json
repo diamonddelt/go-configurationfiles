@@ -1,0 +1,12 @@
+{
+    "name": "Ryan Rasti",
+    "language": "English",
+    "skills": {
+        "Golang": 5,
+        "Python": 3,
+        "Java": 3,
+        "C#": 3,
+        "Training": 10
+    },
+    "active": true
+}
