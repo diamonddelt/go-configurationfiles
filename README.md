@@ -2,5 +2,6 @@
 ### Formats with examples provided:
 ### - JSON
 ### - YAML
+### - INI
 
 ## Ryan Rasti rrrasti@yahoo.com
