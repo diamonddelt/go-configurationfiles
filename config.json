@@ -2,11 +2,11 @@
     "name": "Ryan Rasti",
     "language": "English",
     "skills": {
-        "Golang": 5,
-        "Python": 3,
-        "Java": 3,
-        "C#": 3,
-        "Training": 10
+        "golang": 5,
+        "python": 3,
+        "java": 3,
+        "c#": 3,
+        "training": 10
     },
     "active": true
 }
