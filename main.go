@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-ini/ini"
 
+	"github.com/BurntSushi/toml"
 	"gopkg.in/yaml.v2"
 )
 
@@ -43,6 +44,22 @@ type INIConfiguration struct {
 	}
 }
 
+// TOMLConfiguration specifies how to unmarshal a given TOML configuration file
+type TOMLConfiguration struct {
+	Name     string
+	Language string
+	Skills   struct {
+		Golang   int
+		Python   int
+		Java     int
+		CSharp   int
+		Training int
+	}
+	State struct {
+		Active bool
+	}
+}
+
 // DecodeJSON parses a JSON configuration specified by the 'JSONConfiguration' struct
 func DecodeJSON(config *JSONConfiguration, path string) {
 	file, _ := os.Open(path)
@@ -56,7 +73,7 @@ func DecodeJSON(config *JSONConfiguration, path string) {
 	}
 }
 
-// UnmarshalYAML unmarshalls a YAML configuration into a struct for logical key/value access
+// UnmarshalYAML unmarshals a YAML configuration into a struct for logical key/value access
 func UnmarshalYAML(config *YAMLConfiguration, path string) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -78,6 +95,29 @@ func MapINI(config *INIConfiguration, path string) {
 	}
 }
 
+// UnmarshalTOML unmarshals a TOML configuration into a struct for logical key/value access
+func UnmarshalTOML(config *TOMLConfiguration, path string) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		panic(err)
+	}
+	err = toml.Unmarshal(data, config)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+// GetCommonEnvironmentConfigurations returns a map[string]string containing the following environment variables:
+// - PATH
+// - USERNAME
+func GetCommonEnvironmentConfigurations() map[string]string {
+
+	envs := make(map[string]string)
+	envs["PATH"], envs["USERNAME"] = os.Getenv("PATH"), os.Getenv("USERNAME")
+	return envs
+}
+
 func main() {
 	configJSON := JSONConfiguration{}
 	DecodeJSON(&configJSON, "config.json")
@@ -90,4 +130,12 @@ func main() {
 	configINI := INIConfiguration{}
 	MapINI(&configINI, "config.ini")
 	fmt.Println(`The value for "active" in the [State] section is:`, configINI.State.Active) // pull out a value from the INI configuration file
+
+	configTOML := TOMLConfiguration{}
+	UnmarshalTOML(&configTOML, "config.toml")
+	fmt.Println(`The value for "java" in the [skills] section is:`, configTOML.Skills.Java) // pull out a value from the INI configuration file
+
+	envConfigs := GetCommonEnvironmentConfigurations()
+	fmt.Println(`Your environment USERNAME is:`, envConfigs["USERNAME"])
+	fmt.Println(`Your environment PATH is:`, envConfigs["PATH"])
 }

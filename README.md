@@ -3,5 +3,7 @@
 ### - JSON
 ### - YAML
 ### - INI
+### - TOML
+### - OS environment variables
 
 ## Ryan Rasti rrrasti@yahoo.com

@@ -1,0 +1,13 @@
+# Generic TOML file
+name = "Ryan Rasti"
+language = "English"
+
+[skills]
+golang = 5
+python = 3
+java = 3
+csharp = 3
+training = 10
+
+[state]
+active = true
